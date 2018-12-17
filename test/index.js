@@ -4,31 +4,11 @@
  */
 
 // Dependencies
-const assert = require('assert');
 const util = require('util');
 const debug = util.debuglog('index');
-const lib = require('./../app/lib');
 
-// Test holder
-var tests = {};
-
-// Test for getRandomNumber
-tests['lib.getRandomNumber returns a number'] = done => {
-  assert.doesNotThrow(() => {
-    assert.equal(typeof(lib.getRandomNumber()), 'number');
-    done();
-  }, TypeError);
-};
-
-// Test for isPalindrome
-tests['lib.isPalindrome correctly distinguishes palindrome strings'] = done => {
-  assert.doesNotThrow(() => {
-    assert.ok(lib.isPalindrome("aabbccbbaa"));
-    assert.ok(lib.isPalindrome("23tr4rt32"));
-    assert.ok(! lib.isPalindrome("ytruty"));
-    done();
-  }, TypeError);
-};
+// Import test suite
+var tests = require('./tests');
 
 // Test counter
 function countTests() {
@@ -42,6 +22,7 @@ function countTests() {
 }
 
 function showTestResults(limit, successes, errors) {
+  console.log('');
   console.log('------------BEGIN TEST RESULTS------------');
   console.log('');
   console.log(`Tests total: ${limit}`);
@@ -68,6 +49,7 @@ function showTestResults(limit, successes, errors) {
 
   console.log('');
   console.log('------------END TEST RESULTS------------');
+  console.log('');
 }
 
 // Test runner
@@ -84,6 +66,7 @@ function runTests() {
         test = tests[key];
         test(() => {
           // Test executed successfully
+          console.log('\x1b[32m%s\x1b[0m', key);
           ++successes;
           ++counter;
         });
@@ -92,6 +75,7 @@ function runTests() {
         debug(e);
 
         // Test raised Assertion Error
+        console.log('\x1b[31m%s\x1b[0m', key);
         ++counter;
 
         errors.push({
